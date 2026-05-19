@@ -1,394 +1,347 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>SAMSON 1.0</title>
-<script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
-body{background:#070707;color:#f0f0f0;padding:14px;}
-.app{max-width:1000px;margin:auto;}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
-.logo{font-size:28px;font-weight:bold;color:#c9a84c;}
-.logo-sub{font-size:9px;color:#555;letter-spacing:0.15em;text-transform:uppercase;margin-top:2px;}
-.badge{font-size:12px;padding:4px 8px;border-radius:999px;background:#c9a84c22;color:#c9a84c;border:1px solid #c9a84c55;margin-left:8px;}
-.clock{color:#c0c0c0;font-size:14px;text-align:right;}
-.online{font-size:9px;color:#5cb85c;letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;}
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:18px;}
-.card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:14px;backdrop-filter:blur(10px);}
-.kpi-label{color:#999;font-size:13px;}
-.kpi-value{font-size:28px;margin-top:6px;font-weight:bold;}
-.kpi-delta{margin-top:6px;font-size:13px;}
-.green{color:#5cb85c;}
-.red{color:#d9534f;}
-.yellow{color:#f0ad4e;}
-.section-title{margin-bottom:12px;color:#c9a84c;font-size:18px;}
-.row{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:18px;}
-.bar-chart{display:flex;align-items:flex-end;gap:8px;height:220px;margin-top:20px;}
-.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;}
-.bar{width:100%;border-radius:8px 8px 0 0;}
-.month{margin-top:6px;font-size:12px;color:#777;}
-.team-item,.agenda-item,.decision-item{padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);}
-.status-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:8px;}
-.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:12px;}
-.tab{padding:10px 14px;border-radius:999px;border:1px solid rgba(255,255,255,0.1);background:#111;cursor:pointer;white-space:nowrap;color:#888;font-size:13px;}
-.active-tab{background:#c9a84c;color:#000;font-weight:bold;}
-.chat{height:380px;overflow-y:auto;padding:12px;border-radius:18px;background:#0d0d0d;border:1px solid rgba(255,255,255,0.07);margin-bottom:12px;}
-.msg{margin-bottom:14px;}
-.msg-user{color:#4a9eff;font-weight:bold;font-size:12px;margin-bottom:3px;}
-.msg-ai{color:#c9a84c;font-weight:bold;font-size:12px;margin-bottom:3px;}
-.msg-text{color:#ccc;font-size:13px;line-height:1.6;}
-.input-row{display:flex;gap:10px;}
-input{flex:1;padding:14px;border:none;outline:none;border-radius:14px;background:#111;color:#fff;font-size:13px;}
-input::placeholder{color:#444;}
-button{border:none;padding:14px 18px;border-radius:14px;background:linear-gradient(135deg,#c9a84c,#a07830);color:#000;font-weight:bold;cursor:pointer;font-size:13px;}
-button:disabled{background:#333;color:#666;cursor:not-allowed;}
-.quick-prompts{display:flex;gap:8px;overflow:auto;margin-bottom:12px;}
-.quick-btn{background:#111;color:#c9a84c;border:1px solid #333;padding:8px 12px;border-radius:999px;font-size:12px;cursor:pointer;white-space:nowrap;}
-.badge-high{background:#d9534f22;color:#d9534f;padding:4px 8px;border-radius:999px;font-size:12px;}
-.badge-med{background:#f0ad4e22;color:#f0ad4e;padding:4px 8px;border-radius:999px;font-size:12px;}
-.advisor-info{padding:10px 12px;background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.1);border-radius:10px;margin-bottom:12px;font-size:12px;color:#888;}
-.advisor-info span{color:#c9a84c;font-weight:bold;}
-.thinking{display:flex;gap:5px;align-items:center;padding:8px 0;}
-.dot{width:6px;height:6px;border-radius:50%;background:#c9a84c;animation:pulse 1.2s ease-in-out infinite;}
-.dot:nth-child(2){animation-delay:0.2s;}
-.dot:nth-child(3){animation-delay:0.4s;}
-@keyframes pulse{0%,100%{opacity:0.3;transform:scale(1);}50%{opacity:1;transform:scale(1.4);}}
-.footer{text-align:center;margin-top:20px;font-size:10px;color:#222;letter-spacing:0.1em;text-transform:uppercase;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#070707;color:#f0f0f0;font-family:Arial,sans-serif;padding:14px;}
+.app{max-width:900px;margin:auto;}
+
+/* Header */
+.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.07);}
+.logo{font-size:26px;font-weight:bold;color:#c9a84c;letter-spacing:0.1em;}
+.logo-sub{font-size:9px;color:#444;letter-spacing:0.12em;text-transform:uppercase;margin-top:3px;}
+.badge{font-size:11px;padding:3px 8px;border-radius:999px;background:rgba(201,168,76,0.1);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);margin-left:8px;vertical-align:middle;}
+.clock{text-align:right;font-size:20px;color:#c9a84c;font-family:monospace;letter-spacing:0.1em;}
+.online{font-size:9px;color:#5cb85c;letter-spacing:0.1em;margin-top:3px;}
+
+/* KPIs */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.kpi-card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;}
+.kpi-label{font-size:10px;color:#666;text-transform:uppercase;letter-spacing:0.1em;}
+.kpi-value{font-size:24px;color:#f0f0f0;margin:4px 0;font-weight:bold;}
+.kpi-delta{font-size:11px;padding:2px 7px;border-radius:4px;display:inline-block;}
+.delta-green{background:rgba(92,184,92,0.1);color:#5cb85c;}
+.delta-red{background:rgba(217,83,79,0.1);color:#d9534f;}
+
+/* Cards */
+.card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px;margin-bottom:12px;}
+.card-title{font-size:10px;color:#c9a84c;text-transform:uppercase;letter-spacing:0.18em;margin-bottom:14px;}
+
+/* Rows */
+.item-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.item-row:last-child{border-bottom:none;}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.dot-green{background:#5cb85c;box-shadow:0 0 6px #5cb85c;}
+.dot-yellow{background:#f0ad4e;box-shadow:0 0 6px #f0ad4e;}
+.dot-red{background:#d9534f;box-shadow:0 0 6px #d9534f;}
+.item-main{flex:1;}
+.item-title{font-size:12px;color:#ddd;}
+.item-sub{font-size:11px;color:#666;margin-top:2px;}
+.item-time{font-size:10px;color:#444;flex-shrink:0;}
+.badge-urgent{font-size:9px;padding:2px 7px;border-radius:3px;background:rgba(217,83,79,0.15);color:#d9534f;}
+.badge-review{font-size:9px;padding:2px 7px;border-radius:3px;background:rgba(240,173,78,0.1);color:#f0ad4e;}
+
+/* Revenue Chart */
+.bar-chart{display:flex;align-items:flex-end;gap:4px;height:100px;margin-top:8px;}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;}
+.bar-inner{width:100%;display:flex;align-items:flex-end;justify-content:center;gap:1px;height:88px;}
+.bar{width:45%;border-radius:2px 2px 0 0;}
+.bar-target{width:45%;border-radius:2px 2px 0 0;background:rgba(255,255,255,0.08);}
+.bar-month{font-size:8px;color:#555;margin-top:4px;font-family:monospace;}
+
+/* Advisor Tabs */
+.advisor-tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px;padding-bottom:4px;}
+.advisor-tab{padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,0.1);background:#111;cursor:pointer;white-space:nowrap;font-size:12px;color:#777;}
+.advisor-tab.active{background:#c9a84c;color:#000;font-weight:bold;border-color:#c9a84c;}
+.advisor-info{padding:8px 12px;background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.1);border-radius:8px;margin-bottom:12px;font-size:11px;color:#777;}
+.advisor-info b{color:#c9a84c;}
+
+/* Chat */
+.chat-window{height:320px;overflow-y:auto;padding:12px;border-radius:12px;background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);margin-bottom:10px;display:flex;flex-direction:column;gap:10px;}
+.msg-wrap-user{display:flex;justify-content:flex-end;}
+.msg-wrap-ai{display:flex;justify-content:flex-start;}
+.msg-bubble{max-width:85%;padding:10px 13px;font-size:13px;line-height:1.6;border-radius:12px;}
+.msg-bubble-user{background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.25);color:#e8d5a0;border-radius:12px 12px 2px 12px;}
+.msg-bubble-ai{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);color:#c0c0c0;border-radius:12px 12px 12px 2px;}
+.msg-name{font-size:10px;margin-bottom:3px;font-weight:bold;}
+.msg-name-user{color:#4a9eff;text-align:right;}
+.msg-name-ai{color:#c9a84c;}
+
+/* Quick prompts */
+.quick-prompts{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px;padding-bottom:4px;}
+.quick-btn{font-size:11px;padding:5px 12px;border-radius:20px;background:#111;border:1px solid #333;color:#c9a84c;cursor:pointer;white-space:nowrap;}
+
+/* Input */
+.input-row{display:flex;gap:8px;}
+.chat-input{flex:1;padding:12px 14px;border:none;outline:none;border-radius:12px;background:#111;color:#fff;font-size:13px;border:1px solid rgba(255,255,255,0.08);}
+.chat-input::placeholder{color:#444;}
+.send-btn{padding:12px 18px;border:none;border-radius:12px;background:linear-gradient(135deg,#c9a84c,#a07830);color:#000;font-weight:bold;cursor:pointer;font-size:13px;}
+.send-btn:disabled{background:#333;color:#666;cursor:not-allowed;}
+
+/* Thinking dots */
+.thinking{display:flex;gap:5px;align-items:center;padding:4px 0;}
+.tdot{width:6px;height:6px;border-radius:50%;background:#c9a84c;animation:pulse 1.2s ease-in-out infinite;}
+.tdot:nth-child(2){animation-delay:0.2s;}
+.tdot:nth-child(3){animation-delay:0.4s;}
+@keyframes pulse{0%,100%{opacity:0.3;transform:scale(1);}50%{opacity:1;transform:scale(1.5);}}
+
+.footer{text-align:center;margin-top:20px;font-size:9px;color:#222;letter-spacing:0.1em;text-transform:uppercase;}
 </style>
 </head>
 <body>
-<div id="root"></div>
-<script type="text/babel">
+<div class="app">
 
-// ============================================================
-// SAMSON — Synthetic Adaptive Mind for Strategic Operational Navigation
-// ============================================================
-// STEP 1: Paste your Anthropic API key below (between the quotes)
-// STEP 2: Save the file — that's it, SAMSON is live
-// ============================================================
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <div><span class="logo">SAMSON</span><span class="badge">v1.0</span></div>
+      <div class="logo-sub">Synthetic Adaptive Mind for Strategic Operational Navigation</div>
+    </div>
+    <div>
+      <div class="clock" id="clock">00:00:00</div>
+      <div class="online">● System Online</div>
+    </div>
+  </div>
 
-const API_KEY = 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
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-label">Revenue</div><div class="kpi-value">$4.82M</div><span class="kpi-delta delta-green">+12.4%</span></div>
+    <div class="kpi-card"><div class="kpi-label">Burn Rate</div><div class="kpi-value">$1.1M</div><span class="kpi-delta delta-green">-3.2%</span></div>
+    <div class="kpi-card"><div class="kpi-label">ARR</div><div class="kpi-value">$57.8M</div><span class="kpi-delta delta-green">+18.7%</span></div>
+    <div class="kpi-card"><div class="kpi-label">NPS Score</div><div class="kpi-value">72</div><span class="kpi-delta delta-green">+5pts</span></div>
+  </div>
 
+  <!-- Revenue Chart -->
+  <div class="card">
+    <div class="card-title">Revenue vs Target — FY2026</div>
+    <div class="bar-chart" id="barChart"></div>
+  </div>
+
+  <!-- Team Status -->
+  <div class="card">
+    <div class="card-title">Team Status</div>
+    <div class="item-row"><div class="dot dot-green"></div><div class="item-main"><div class="item-title">Engineering</div><div class="item-sub">Sprint 24 on track — 94% velocity</div></div><div class="item-time">2m</div></div>
+    <div class="item-row"><div class="dot dot-yellow"></div><div class="item-main"><div class="item-title">Sales</div><div class="item-sub">Q2 pipeline at 78% of target</div></div><div class="item-time">11m</div></div>
+    <div class="item-row"><div class="dot dot-green"></div><div class="item-main"><div class="item-title">Marketing</div><div class="item-sub">CAC down 8% MoM</div></div><div class="item-time">34m</div></div>
+    <div class="item-row"><div class="dot dot-green"></div><div class="item-main"><div class="item-title">Finance</div><div class="item-sub">Month-end close complete</div></div><div class="item-time">1h</div></div>
+    <div class="item-row"><div class="dot dot-red"></div><div class="item-main"><div class="item-title">Legal</div><div class="item-sub">EU compliance deadline in 6 days</div></div><div class="item-time">2h</div></div>
+  </div>
+
+  <!-- Agenda -->
+  <div class="card">
+    <div class="card-title">Today's Agenda</div>
+    <div class="item-row"><div class="item-main"><div class="item-title">09:00 — Board Prep</div><div class="item-sub">CFO + GC</div></div></div>
+    <div class="item-row"><div class="item-main"><div class="item-title">10:30 — Series C Call</div><div class="item-sub">Sequoia</div></div></div>
+    <div class="item-row"><div class="item-main"><div class="item-title">13:00 — Product Roadmap</div><div class="item-sub">CPO + Eng Leads</div></div></div>
+    <div class="item-row"><div class="item-main"><div class="item-title">15:00 — Press Interview</div><div class="item-sub">TechCrunch</div></div></div>
+    <div class="item-row"><div class="item-main"><div class="item-title">16:30 — 1:1 Review</div><div class="item-sub">COO</div></div></div>
+  </div>
+
+  <!-- Decision Queue -->
+  <div class="card">
+    <div class="card-title">Decision Queue</div>
+    <div class="item-row"><div class="item-main"><div class="item-title">Approve Q3 hiring plan (+18 HC)</div></div><span class="badge-urgent">URGENT</span></div>
+    <div class="item-row"><div class="item-main"><div class="item-title">Sign AWS Enterprise contract</div></div><span class="badge-review">REVIEW</span></div>
+    <div class="item-row"><div class="item-main"><div class="item-title">Confirm UK expansion timeline</div></div><span class="badge-review">REVIEW</span></div>
+  </div>
+
+  <!-- AI Advisors -->
+  <div class="card">
+    <div class="card-title">AI Advisors</div>
+
+    <div class="advisor-tabs">
+      <div class="advisor-tab active" onclick="selectAdvisor('TITAN',this)">TITAN</div>
+      <div class="advisor-tab" onclick="selectAdvisor('ATLAS',this)">ATLAS</div>
+      <div class="advisor-tab" onclick="selectAdvisor('NOVA',this)">NOVA</div>
+      <div class="advisor-tab" onclick="selectAdvisor('RAVEN',this)">RAVEN</div>
+      <div class="advisor-tab" onclick="selectAdvisor('ONYX',this)">ONYX</div>
+    </div>
+
+    <div class="advisor-info" id="advisorInfo">
+      <b>TITAN</b> — Chief Strategy Advisor
+    </div>
+
+    <div class="quick-prompts">
+      <button class="quick-btn" onclick="quickSend('What should I prioritize this week?')">Weekly Priorities</button>
+      <button class="quick-btn" onclick="quickSend('What is the biggest risk right now?')">Top Risk</button>
+      <button class="quick-btn" onclick="quickSend('How do we grow faster?')">Growth</button>
+      <button class="quick-btn" onclick="quickSend('Help me plan my business')">Plan Business</button>
+      <button class="quick-btn" onclick="quickSend('Draft an investor pitch')">Investor Pitch</button>
+    </div>
+
+    <div class="chat-window" id="chatWindow"></div>
+
+    <div class="input-row">
+      <input class="chat-input" id="chatInput" placeholder="Ask your advisor..." onkeydown="if(event.key==='Enter')sendMessage()"/>
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()">SEND</button>
+    </div>
+  </div>
+
+  <div class="footer">SAMSON v1.0 — Synthetic Adaptive Mind for Strategic Operational Navigation — Powered by Claude</div>
+</div>
+
+<script>
 // ============================================================
-// ADVISOR ROSTER
+// PASTE YOUR ANTHROPIC API KEY BELOW — BETWEEN THE QUOTES
 // ============================================================
+const API_KEY = "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";
+
+// Advisor definitions
 const ADVISORS = {
   TITAN: {
     role: "Chief Strategy Advisor",
-    system: "You are TITAN, Chief Strategy Advisor inside SAMSON — Synthetic Adaptive Mind for Strategic Operational Navigation. You think in decades not quarters. Visionary, sharp, direct. Help the CEO see around corners, position against competitors, and make high-stakes decisions with confidence. Business context: ARR $57.8M, revenue $4.82M/mo +12.4% vs plan, NPS 72, burn $1.1M/mo, ~200 staff. Max 120 words. No fluff."
+    system: "You are TITAN, Chief Strategy Advisor inside SAMSON — Synthetic Adaptive Mind for Strategic Operational Navigation. Visionary, sharp, direct. Help the CEO make high-stakes decisions and see around corners. Max 120 words. No fluff."
   },
   ATLAS: {
     role: "Operations & Execution",
-    system: "You are ATLAS, Operations Advisor inside SAMSON — Synthetic Adaptive Mind for Strategic Operational Navigation. You are the engine that keeps everything running. Practical, process-driven, execution-focused. Help the CEO build systems, manage teams, and get things done on time. Business context: ARR $57.8M, revenue $4.82M/mo, burn $1.1M/mo, ~200 staff. Max 120 words. No fluff."
+    system: "You are ATLAS, Operations Advisor inside SAMSON. Practical, process-driven, execution-focused. Help the CEO build systems, manage teams, and get things done. Max 120 words. No fluff."
   },
   NOVA: {
     role: "Finance & Growth",
-    system: "You are NOVA, Finance & Growth Advisor inside SAMSON — Synthetic Adaptive Mind for Strategic Operational Navigation. Numbers are your language. Help the CEO understand their financial position, grow revenue, prepare for funding, and make smart money decisions. Business context: ARR $57.8M, revenue $4.82M/mo +12.4% vs plan, burn $1.1M/mo, NPS 72. Max 120 words. No fluff."
+    system: "You are NOVA, Finance & Growth Advisor inside SAMSON. Numbers are your language. Help with revenue, burn rate, funding, and smart money decisions. Context: ARR $57.8M, revenue $4.82M/mo, burn $1.1M/mo. Max 120 words. No fluff."
   },
   RAVEN: {
     role: "Risk & Intelligence",
-    system: "You are RAVEN, Risk & Intelligence Advisor inside SAMSON — Synthetic Adaptive Mind for Strategic Operational Navigation. You see threats before they happen. Flag legal risks, compliance issues, competitive dangers, and anything that could hurt the business. Be direct and urgent when needed. Current alert: EU compliance deadline in 6 days. Max 120 words. No fluff."
+    system: "You are RAVEN, Risk & Intelligence Advisor inside SAMSON. You see threats before they happen. Flag legal risks, compliance issues, and competitive dangers. Current alert: EU compliance deadline in 6 days. Max 120 words. No fluff."
   },
   ONYX: {
     role: "Marketing & Communications",
-    system: "You are ONYX, Marketing & Communications Advisor inside SAMSON — Synthetic Adaptive Mind for Strategic Operational Navigation. Brand, voice, and customer growth are your domain. Help the CEO craft messaging, grow their audience, win customers, and tell their story powerfully. Business context: NPS 72, CAC down 8% MoM. Max 120 words. No fluff."
+    system: "You are ONYX, Marketing & Communications Advisor inside SAMSON. Brand, voice, and customer growth are your domain. Help craft messaging, grow audience, and win customers. Max 120 words. No fluff."
   }
 };
 
-// ============================================================
-// DASHBOARD DATA
-// ============================================================
-const kpiData = [
-  {label:"Revenue", value:"$4.82M", delta:"+12.4%", trend:"green", spark:[60,65,58,72,68,80,75,90,85,95,88,100]},
-  {label:"Burn Rate", value:"$1.1M", delta:"-3.2%", trend:"green", spark:[80,78,75,77,72,70,68,65,62,60,58,55]},
-  {label:"ARR", value:"$57.8M", delta:"+18.7%", trend:"green", spark:[40,44,50,53,58,61,67,72,78,83,90,100]},
-  {label:"NPS", value:"72", delta:"+5pts", trend:"green", spark:[55,58,55,62,60,65,63,68,66,70,69,72]},
-];
+// State
+let currentAdvisor = "TITAN";
+let histories = {
+  TITAN: [{role:"assistant", content:"TITAN online. Strategy systems ready. What are we building today?"}],
+  ATLAS: [{role:"assistant", content:"ATLAS online. Operations grid active. What needs executing?"}],
+  NOVA:  [{role:"assistant", content:"NOVA online. Financial intelligence ready. What are the numbers telling us?"}],
+  RAVEN: [{role:"assistant", content:"RAVEN online. Risk sensors active. EU compliance deadline in 6 days — top priority."}],
+  ONYX:  [{role:"assistant", content:"ONYX online. Brand and growth systems ready. What's the message today?"}]
+};
+let isLoading = false;
 
-const teamUpdates = [
-  {dept:"Engineering", status:"#5cb85c", msg:"Sprint 24 on track — 94% velocity"},
-  {dept:"Sales", status:"#f0ad4e", msg:"Q2 pipeline at 78% of target"},
-  {dept:"Marketing", status:"#5cb85c", msg:"CAC down 8% MoM"},
-  {dept:"Finance", status:"#5cb85c", msg:"Month-end close complete"},
-  {dept:"Legal", status:"#d9534f", msg:"EU compliance deadline in 6 days"},
-];
+// Clock
+function updateClock(){
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleTimeString();
+}
+setInterval(updateClock, 1000);
+updateClock();
 
-const agenda = [
-  {time:"09:00", title:"Board Prep", with:"CFO + GC"},
-  {time:"10:30", title:"Series C Call", with:"Sequoia"},
-  {time:"13:00", title:"Product Roadmap", with:"CPO + Eng Leads"},
-  {time:"15:00", title:"Press Interview", with:"TechCrunch"},
-  {time:"16:30", title:"1:1 Review", with:"COO"},
-];
+// Revenue Chart
+const months = ["J","F","M","A","M","J","J","A","S","O","N","D"];
+const actual  = [3.1,3.4,3.2,3.8,3.7,4.0,3.9,4.2,4.4,4.5,4.7,4.82];
+const target  = [3.0,3.3,3.6,3.9,3.8,4.1,4.0,4.3,4.2,4.5,4.6,5.0];
+const maxVal  = Math.max(...actual, ...target);
+const chart   = document.getElementById('barChart');
+months.forEach((m,i)=>{
+  const above = actual[i] >= target[i];
+  const aH = Math.round((actual[i]/maxVal)*88);
+  const tH = Math.round((target[i]/maxVal)*88);
+  chart.innerHTML += `
+    <div class="bar-wrap">
+      <div class="bar-inner">
+        <div class="bar" style="height:${aH}px;background:${above?'linear-gradient(180deg,#c9a84c,#a07830)':'#d9534f'};"></div>
+        <div class="bar-target" style="height:${tH}px;"></div>
+      </div>
+      <div class="bar-month">${m}</div>
+    </div>`;
+});
 
-const decisions = [
-  {label:"Approve Q3 hiring plan (+18 HC)", urgency:"high"},
-  {label:"Sign AWS Enterprise contract", urgency:"med"},
-  {label:"Confirm UK expansion timeline", urgency:"med"},
-];
-
-const revenueMonths = ["J","F","M","A","M","J","J","A","S","O","N","D"];
-const revenueActual = [3.1,3.4,3.2,3.8,3.7,4.0,3.9,4.2,4.4,4.5,4.7,4.82];
-const revenueTarget = [3.0,3.3,3.6,3.9,3.8,4.1,4.0,4.3,4.2,4.5,4.6,5.0];
-
-// ============================================================
-// COMPONENTS
-// ============================================================
-function Sparkline({data}){
-  const max = Math.max(...data);
-  const points = data.map((d,i)=>`${i*10},${40-(d/max)*35}`).join(" ");
-  return(
-    <svg width="120" height="40">
-      <polyline fill="none" stroke="#c9a84c" strokeWidth="2" points={points}/>
-    </svg>
-  );
+// Select advisor
+function selectAdvisor(name, el){
+  currentAdvisor = name;
+  document.querySelectorAll('.advisor-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('advisorInfo').innerHTML = `<b>${name}</b> — ${ADVISORS[name].role}`;
+  document.getElementById('chatInput').placeholder = `Ask ${name} anything...`;
+  renderChat();
 }
 
-function App(){
-  const [time, setTime] = React.useState(new Date());
-  const [advisor, setAdvisor] = React.useState("TITAN");
-  const [messages, setMessages] = React.useState({
-    TITAN:[{role:"ai", text:"TITAN online. Strategy systems ready. What are we building today?"}],
-    ATLAS:[{role:"ai", text:"ATLAS online. Operations grid active. What needs executing?"}],
-    NOVA:[{role:"ai", text:"NOVA online. Financial intelligence ready. What are the numbers telling us?"}],
-    RAVEN:[{role:"ai", text:"RAVEN online. Risk sensors active. EU compliance deadline in 6 days — top priority."}],
-    ONYX:[{role:"ai", text:"ONYX online. Brand and growth systems ready. What's the message today?"}],
+// Render chat
+function renderChat(){
+  const win = document.getElementById('chatWindow');
+  win.innerHTML = '';
+  histories[currentAdvisor].forEach(m=>{
+    const isUser = m.role === 'user';
+    win.innerHTML += `
+      <div class="${isUser?'msg-wrap-user':'msg-wrap-ai'}">
+        <div class="msg-bubble ${isUser?'msg-bubble-user':'msg-bubble-ai'}">
+          <div class="msg-name ${isUser?'msg-name-user':'msg-name-ai'}">${isUser?'YOU':currentAdvisor}</div>
+          ${m.content}
+        </div>
+      </div>`;
   });
-  const [input, setInput] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
-  const chatRef = React.useRef(null);
+  win.scrollTop = win.scrollHeight;
+}
 
-  React.useEffect(()=>{
-    const interval = setInterval(()=>setTime(new Date()), 1000);
-    return ()=>clearInterval(interval);
-  },[]);
+// Initial render
+renderChat();
 
-  React.useEffect(()=>{
-    if(chatRef.current){
-      chatRef.current.scrollTop = chatRef.current.scrollHeight;
-    }
-  },[messages, advisor]);
+// Quick send
+function quickSend(text){
+  document.getElementById('chatInput').value = text;
+  sendMessage();
+}
 
-  async function send(text){
-    const msg = (text || input).trim();
-    if(!msg || loading) return;
-    setInput("");
+// Send message
+async function sendMessage(){
+  const input = document.getElementById('chatInput');
+  const btn = document.getElementById('sendBtn');
+  const text = input.value.trim();
+  if(!text || isLoading) return;
 
-    const userMsg = {role:"user", text:msg};
-    const currentHistory = [...messages[advisor], userMsg];
+  input.value = '';
+  isLoading = true;
+  btn.disabled = true;
+  btn.textContent = '···';
 
-    setMessages(prev=>({...prev, [advisor]: currentHistory}));
-    setLoading(true);
+  // Add user message
+  histories[currentAdvisor].push({role:'user', content:text});
+  renderChat();
 
-    try{
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json",
-          "x-api-key": API_KEY,
-          "anthropic-version":"2023-06-01",
-          "anthropic-dangerous-direct-browser-access":"true"
-        },
-        body: JSON.stringify({
-          model:"claude-haiku-4-5-20251001",
-          max_tokens:300,
-          system: ADVISORS[advisor].system,
-          messages: currentHistory.map(m=>({
-            role: m.role==="ai" ? "assistant" : "user",
-            content: m.text
-          }))
-        })
-      });
+  // Show thinking dots
+  const win = document.getElementById('chatWindow');
+  const thinking = document.createElement('div');
+  thinking.className = 'thinking';
+  thinking.innerHTML = '<div class="tdot"></div><div class="tdot"></div><div class="tdot"></div>';
+  win.appendChild(thinking);
+  win.scrollTop = win.scrollHeight;
 
-      const data = await response.json();
-      const reply = data.content?.map(b=>b.text||"").join("") || "Unable to process. Please retry.";
-      setMessages(prev=>({...prev, [advisor]:[...currentHistory, {role:"ai", text:reply}]}));
-    } catch(err){
-      setMessages(prev=>({...prev, [advisor]:[...currentHistory, {role:"ai", text:"Connection error. Please retry."}]}));
-    }
+  try{
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key': API_KEY,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body: JSON.stringify({
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:300,
+        system: ADVISORS[currentAdvisor].system,
+        messages: histories[currentAdvisor]
+      })
+    });
 
-    setLoading(false);
+    const data = await res.json();
+    const reply = data.content?.map(b=>b.text||'').join('') || 'Unable to process. Please retry.';
+    histories[currentAdvisor].push({role:'assistant', content:reply});
+
+  } catch(err){
+    histories[currentAdvisor].push({role:'assistant', content:'Connection error. Please retry.'});
   }
 
-  const quickPrompts = [
-    "What should I prioritize this week?",
-    "What is the biggest risk right now?",
-    "How do we grow faster?",
-    "Help me plan my business",
-    "Draft an investor pitch"
-  ];
-
-  return(
-    <div className="app">
-
-      {/* Header */}
-      <div className="header">
-        <div>
-          <div>
-            <span className="logo">SAMSON</span>
-            <span className="badge">v1.0</span>
-          </div>
-          <div className="logo-sub">Synthetic Adaptive Mind for Strategic Operational Navigation</div>
-        </div>
-        <div className="clock">
-          {time.toLocaleTimeString()}
-          <div className="online">● System Online</div>
-        </div>
-      </div>
-
-      {/* KPIs */}
-      <div className="kpi-grid">
-        {kpiData.map((kpi,i)=>(
-          <div className="card" key={i}>
-            <div className="kpi-label">{kpi.label}</div>
-            <div className="kpi-value">{kpi.value}</div>
-            <div className={`kpi-delta ${kpi.trend}`}>{kpi.delta}</div>
-            <Sparkline data={kpi.spark}/>
-          </div>
-        ))}
-      </div>
-
-      <div className="row">
-
-        {/* Revenue Chart */}
-        <div className="card">
-          <div className="section-title">Revenue Performance</div>
-          <div className="bar-chart">
-            {revenueActual.map((v,i)=>{
-              const above = v >= revenueTarget[i];
-              return(
-                <div className="bar-wrap" key={i}>
-                  <div className="bar" style={{
-                    height:`${v*35}px`,
-                    background: above
-                      ? "linear-gradient(180deg,#c9a84c,#a07830)"
-                      : "#d9534f"
-                  }}/>
-                  <div className="month">{revenueMonths[i]}</div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Team Status */}
-        <div className="card">
-          <div className="section-title">Team Status</div>
-          {teamUpdates.map((item,i)=>(
-            <div className="team-item" key={i}>
-              <span className="status-dot" style={{background:item.status}}/>
-              <strong>{item.dept}</strong>
-              <div style={{marginTop:"6px",color:"#bbb"}}>{item.msg}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* Agenda */}
-        <div className="card">
-          <div className="section-title">Today's Agenda</div>
-          {agenda.map((item,i)=>(
-            <div className="agenda-item" key={i}>
-              <strong>{item.time}</strong> — {item.title}
-              <div style={{marginTop:"4px",color:"#777",fontSize:"12px"}}>{item.with}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* Decision Queue */}
-        <div className="card">
-          <div className="section-title">Decision Queue</div>
-          {decisions.map((d,i)=>(
-            <div className="decision-item" key={i}>
-              <div>{d.label}</div>
-              <div style={{marginTop:"8px"}}>
-                {d.urgency==="high"
-                  ? <span className="badge-high">URGENT</span>
-                  : <span className="badge-med">REVIEW</span>
-                }
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* AI Advisors */}
-        <div className="card">
-          <div className="section-title">AI Advisors</div>
-
-          {/* Advisor Tabs */}
-          <div className="tabs">
-            {Object.keys(ADVISORS).map(name=>(
-              <div
-                key={name}
-                onClick={()=>setAdvisor(name)}
-                className={`tab ${advisor===name ? "active-tab" : ""}`}
-              >
-                {name}
-              </div>
-            ))}
-          </div>
-
-          {/* Advisor Info */}
-          <div className="advisor-info">
-            <span>{advisor}</span> — {ADVISORS[advisor].role}
-          </div>
-
-          {/* Quick Prompts */}
-          <div className="quick-prompts">
-            {quickPrompts.map(p=>(
-              <button key={p} className="quick-btn" onClick={()=>send(p)}>
-                {p}
-              </button>
-            ))}
-          </div>
-
-          {/* Chat Window */}
-          <div className="chat" ref={chatRef}>
-            {messages[advisor].map((m,i)=>(
-              <div className="msg" key={i}>
-                <div className={m.role==="user" ? "msg-user" : "msg-ai"}>
-                  {m.role==="user" ? "YOU" : advisor}
-                </div>
-                <div className="msg-text">{m.text}</div>
-              </div>
-            ))}
-            {loading && (
-              <div className="thinking">
-                <div className="dot"/>
-                <div className="dot"/>
-                <div className="dot"/>
-              </div>
-            )}
-          </div>
-
-          {/* Input */}
-          <div className="input-row">
-            <input
-              value={input}
-              placeholder={`Ask ${advisor} anything...`}
-              onChange={e=>setInput(e.target.value)}
-              onKeyDown={e=>e.key==="Enter" && send()}
-            />
-            <button onClick={()=>send()} disabled={loading}>
-              {loading ? "···" : "SEND"}
-            </button>
-          </div>
-        </div>
-
-      </div>
-
-      <div className="footer">
-        SAMSON v1.0 — Synthetic Adaptive Mind for Strategic Operational Navigation — Powered by Claude
-      </div>
-
-    </div>
-  );
+  isLoading = false;
+  btn.disabled = false;
+  btn.textContent = 'SEND';
+  renderChat();
 }
-
-ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
 </script>
 </body>
 </html>
